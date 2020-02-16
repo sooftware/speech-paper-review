@@ -9,7 +9,7 @@ http://papers.nips.cc/paper/5847-attention-based-models-for-speech-recognition.p
 본 논문에서는 최근 도입된 (당시는 최근이였음) 어텐션 매커니즘이 여러 분야에서 좋은 성능을 보였지만, 음성 인식 분야의 특성을 충분히 반영한 매커니즘은 없었다고 주정한다.  
   
 음성 인식은 NMT 등의 task에 비해 상당히 긴 input sequence를 가진다.  
- 단어 단위로 수개에서 수십개의 인풋을 가지는 NMT에 비해 음성 인식에서는 20~40ms로 자른 프레임들이 수백~수천개의 인풋으로 들어가게 된다  
+ 단어 단위로 수개에서 수십개의 인풋을 가지는 NMT에 비해 음성 인식에서는 20 ~ 40ms로 자른 프레임들이 수백~수천개의 인풋으로 들어가게 된다  
    
  본 논문은 이러한 음성 인식 분야의 특성에 맞게 새로운 어텐션 매커니즘을 제안한다.  
    #
@@ -150,4 +150,18 @@ Sharpening은 long-utterance (긴 발화)에서의 퍼포먼스는 개선했지�
    
 본 논문에서 진행한 실험의 결과이다.  
 기본 모델보다는 Convolution을 적용한 모델이 더 좋은 결과를 내었고,  
+<<<<<<< HEAD
+Smoothing까지 적용한 모델이 최상의 성적을 내었다.  
+  
+## Implementation
+  
+Dot-Product Attention, Content-Based Attention, Hybrid-Attention까지 구현한 링크입니다.  
+https://github.com/sh951011/Korean-Speech-Recognition/blob/master/models/attention.py  
+  
+오류, 피드백, 질문 무엇이든지 환영합니다.  
+
+email1 : sh951011@gmail.com  
+email2 : sooftware@naver.com  
+=======
 Smoothing까지 적용한 모델이 최상의 성적을 내었다.
+>>>>>>> f530c17c86d5d583b327a5595fab1a07df3b053d
