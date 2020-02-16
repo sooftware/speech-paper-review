@@ -2,6 +2,8 @@
 
 ![title](https://postfiles.pstatic.net/MjAyMDAyMTdfMjAw/MDAxNTgxODY4NTQ4MDYw.h3fmR1DnirrDCC-wkSrHptgHrlPX2GPQsnIhI1ulGecg.bIlam2xHjyx9Fdet1be9FvurzHMMNIfxLa2_cY2hapsg.PNG.sooftware/image.png?type=w773)  
   
+http://papers.nips.cc/paper/5847-attention-based-models-for-speech-recognition.pdf
+
 ## Introduction  
 
 본 논문에서는 최근 도입된 (당시는 최근이였음) 어텐션 매커니즘이 여러 분야에서 좋은 성능을 보였지만, 음성 인식 분야의 특성을 충분히 반영한 매커니즘은 없었다고 주정한다.  
