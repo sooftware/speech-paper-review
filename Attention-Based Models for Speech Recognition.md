@@ -150,7 +150,6 @@ Sharpening은 long-utterance (긴 발화)에서의 퍼포먼스는 개선했지�
    
 본 논문에서 진행한 실험의 결과이다.  
 기본 모델보다는 Convolution을 적용한 모델이 더 좋은 결과를 내었고,  
-<<<<<<< HEAD
 Smoothing까지 적용한 모델이 최상의 성적을 내었다.  
   
 ## Implementation
@@ -162,6 +161,3 @@ https://github.com/sh951011/Korean-Speech-Recognition/blob/master/models/attenti
 
 email1 : sh951011@gmail.com  
 email2 : sooftware@naver.com  
-=======
-Smoothing까지 적용한 모델이 최상의 성적을 내었다.
->>>>>>> f530c17c86d5d583b327a5595fab1a07df3b053d
