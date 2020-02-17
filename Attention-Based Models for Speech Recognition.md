@@ -142,6 +142,7 @@ Sharpening은 long-utterance (긴 발화)에서의 퍼포먼스는 개선했지�
 ![smoothing](https://postfiles.pstatic.net/MjAyMDAyMTdfNjIg/MDAxNTgxODY4NjM0ODMz.jYTFOEd93R5-IagaKWOyTg3i07Pk7Rwdl1LxsbZAPS8g.r7A0IGeNFdXeSUUl9EB_QWM6EOzb_6N1eHuDGz8_JrIg.PNG.sooftware/image.png?type=w773)  
   
 위의 식처럼 기존 Softmax 식에 Sigmoid를 추가해준 방식이다.  
+Sigmoid로 Top-k frame과 아닌 frame들을 구분해주는 방식이라고 나는 이해했다.  
 이러한 방식은 다양성을 가져온다고 본 논문은 말한다.  
   
 ## Result
