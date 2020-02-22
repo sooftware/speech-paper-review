@@ -1,6 +1,6 @@
 # <h1 align="center">:star2: Paper Review :star2:</h1>
   
-<p align=center><i> Speech · NLP · Computer-Vision </i></p>  
+<p align=center><i> Speech · NLP · Vision </i></p>  
   
 ## *Speech*  
 * \[2014/11\] **Voice Recognition Using MFCC Algorithm** : *MFCC*    
