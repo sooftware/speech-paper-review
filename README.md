@@ -1,5 +1,7 @@
-# Paper-Review 
-Review of papers I read
+# <center> Paper-Review </center>  
+  
+<center> *Speech* · *NLP* · *Signal-Processing* </center>  
+  
 ## *Speech-Recognition*  
 * \[2014/11\] **Voice Recognition Using MFCC Algorithm** : *MFCC*    
 * \[2014/12\] **Deep Speech: Scaling up end-to-end speech recognition**
