@@ -1,6 +1,6 @@
-# <center> Paper-Review </center>  
+# <h1 align="center">:ghost:Paper Review</h1>
   
-<center> *Speech* · *NLP* · *Signal-Processing* </center>  
+<p align=center><i> Speech · NLP · Signal-Processing </i></p>
   
 ## *Speech-Recognition*  
 * \[2014/11\] **Voice Recognition Using MFCC Algorithm** : *MFCC*    
