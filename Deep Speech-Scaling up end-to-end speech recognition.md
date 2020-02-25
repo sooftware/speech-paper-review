@@ -16,3 +16,50 @@ Abstract에서 강조한 내용을 다시 한번 강조한다. 기존 traditiona
    
 ## RNN Training Setup
   
+![model](https://postfiles.pstatic.net/MjAyMDAyMjNfMjcy/MDAxNTgyMzkwNTUyMDky.Btvd1sq4aVjkLzhMoXlSY5zrjNa8WyfqUAHi7NeFtcog.mFCsfZv-R3VDe_Gt-PZYr7R-Ymc3x84GWlcRX7-SZyIg.PNG.sooftware/image.png?type=w773)  
+  
+해당 챕터에서는 자신들이 어떤 식으로 모델을 구성했는지에 대해 설명한다.  
+모델의 핵심은 RNN으로 구성되어 있으며, 트레이닝 셋은 ${(x_1, y_1), (x_2, y_2), ... (x_t, y_t)}$ 와 같은 딕셔너리 형식으로 구성했다고 한다. (x는 스펙트로그램, y는 문자로 구성 )    
+  
+모델은 총 5개의 히든 레이어로 구성했다고 한다.
+논문을 읽으면서 모델 아키텍쳐가 상당히 특이하다고 생각했다.  
+
+현재 내가 알고있는 방식과는 사뭇 다른 방식이였는데, 히든 레이어 중 1, 2, 3번째 레이어는 병렬적 (Parallel) 하게 처리하기 위해 서로 독립적으로 포워딩 된다고 한다. RNN 아키텍쳐를 사용하게 되면 이전 셀의 아웃풋이 필요하기 때문에 어쩔 수 없이 병렬처리의 한계점이 있기 때문에 학습 속도 개선을 위해 각 인풋을 독립적으로 처리했다고 한다.    
+ 여기서도 나는 본 논문이 학습 시간을 단축시키기 위해 상당히 노력했다는 인상을 받았다.   
+  
+![forward](https://postfiles.pstatic.net/MjAyMDAyMjNfMTgz/MDAxNTgyMzkwNTIyMDQ0.Tq2hNX4U6a4mmT4V3f2sWemnruUnzCuLJYP5v5x8LlEg.8oF99BbkoyhYbmWQL0dD5LiWhNl61qe33P8OnGOG_Hsg.PNG.sooftware/image.png?type=w773)  
+   
+위의 수식을 통해 포워딩이 진행되는데, 여기서 g는 최소 0, 최대 20의 값을 가지는 ReLU 함수이다.  
+그리고 4번째 레이어에서는 Bidirectional-RNN으로 구성했다.  
+  
+![Bi-RNN](https://postfiles.pstatic.net/MjAyMDAyMjNfMjI0/MDAxNTgyMzkwNTMyNzM2.yNOOR59yjQmH7I1v8h-YtNJ-S8JSf5q9oSiMHn1JGcAg.mrjf5ofIgIa2CQBbzZZG0ncV7JxxxR9pRcXY5ZzaG00g.PNG.sooftware/image.png?type=w773)  
+  
+(f)는 정방향 (forward), (b)는 역방향 (backward)을 표현한 것이다.  
+이때 주의할 점으로는, forward는 t = 1 에서 t = T 방향으로 흐르고, backward는 t = T에서 t = 1 방향으로 흐른다는 점이다.  
+  
+![5-layer](https://postfiles.pstatic.net/MjAyMDAyMjVfMzkg/MDAxNTgyNjIxNjY0MzMw.CdMnrGnCNt8FrFb102hZFmRldRA1Xp_0kpWoFUbUv4sg.-VSEzem8ZH_3ry2W29awhSRASuz4Cb0MjIJnmwp6zcEg.PNG.sooftware/image.png?type=w773)  
+
+그리고 마지막 5번째 레이어는 이렇게 forward, backward의 결과에 웨이트를 주고 1, 2, 3 번째 레이어와 동일한 ReLU를 활성화 함수로 사용했다.  
+  
+![softmax](https://postfiles.pstatic.net/MjAyMDAyMjNfODIg/MDAxNTgyMzkwNTQxMjI0.bn6ow6MHo58KaEaVu33JM8rzSvIYZqxjRpJMeKauUgsg.QumDhUt_Kx0Gqv_psT9xcHXmr44HLcGtELb7BkphlKsg.PNG.sooftware/image.png?type=w773)  
+  
+그리고 이렇게 나온 결과는 Softmax 함수에 넣어서 최종적으로 Classfication을 진행한다.  
+  
+여기서 또 특이했던 점으로, LSTM이 아닌 기본 RNN을 사용했다는 점이다.  
+그 이유로 본 논문에서는 LSTM의 단점은 메모리가 많이 소요되고, 학습이 오래걸린다는 점을 꼽았다.  
+  
+  
+### Regularization
+  
+본 논문은 학습 시, 드랍아웃 비율을 5 - 10%정도를 유지했다고 한다.  
+그리고 Spectrogram의 프레임 길이는 10ms, 포워딩은 5ms를 사용했다.  
+(해당 부분은 오류가 있을수도 있습니다)  
+  
+통상적으로 음성 인식에서 프레임 길이는 20 - 40ms를 사용하기 때문에 프레임 길이가 상당히 짧다고 생각했다.  
+해당 부분은 다른 이유가 있어서 짧게 한 건지, 당시에 프레임 길이에 대한 연구가 현재보다 덜 발달해서 그런 것인지는 확인을 해봐야 할 듯 하다.  
+  
+### Language Model
+  
+본 논문은 더 정확한 인식을 위하여 N-gram Language Model을 사용했다.  
+  
+(아직 작성 중입니다)  
