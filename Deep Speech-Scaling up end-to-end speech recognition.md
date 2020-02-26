@@ -43,10 +43,13 @@ Abstract에서 강조한 내용을 다시 한번 강조한다. 기존 traditiona
   
 ![softmax](https://postfiles.pstatic.net/MjAyMDAyMjNfODIg/MDAxNTgyMzkwNTQxMjI0.bn6ow6MHo58KaEaVu33JM8rzSvIYZqxjRpJMeKauUgsg.QumDhUt_Kx0Gqv_psT9xcHXmr44HLcGtELb7BkphlKsg.PNG.sooftware/image.png?type=w773)  
   
-그리고 이렇게 나온 결과는 Softmax 함수에 넣어서 최종적으로 Classfication을 진행한다.  
+그리고 이렇게 나온 결과는 Softmax 함수에 넣어서 최종적으로 Classfication을 진행한다. 또한 loss 계산시에는 CTC loss를 사용했다.    
   
 여기서 또 특이했던 점으로, LSTM이 아닌 기본 RNN을 사용했다는 점이다.  
 그 이유로 본 논문에서는 LSTM의 단점은 메모리가 많이 소요되고, 학습이 오래걸린다는 점을 꼽았다.  
+  
+총 5개의 히든 레이어 중 실제 RNN 계층은 1개 뿐이라는 점과, LSTM이 아닌 RNN을 사용했다는 점이 인상깊었다.  
+최근 연구에서는 기본 RNN을 사용하는 모습을 거의 볼 수 없는데, 당시에는 아직 GPU의 성능이 그리 좋지 않던 때라 그런지 학습 속도에 대해 굉장히 고려를 많이한 모습이 보였다.  
   
   
 ### Regularization
@@ -59,7 +62,34 @@ Abstract에서 강조한 내용을 다시 한번 강조한다. 기존 traditiona
 해당 부분은 다른 이유가 있어서 짧게 한 건지, 당시에 프레임 길이에 대한 연구가 현재보다 덜 발달해서 그런 것인지는 확인을 해봐야 할 듯 하다.  
   
 ### Language Model
+
+본 논문의 모델은 성능 테스트시에, 정확히 맞추거나 그럴싸하게 틀렸다고 한다.  
+![performance-test](https://postfiles.pstatic.net/MjAyMDAyMjNfOTEg/MDAxNTgyMzkwNTYzMjQ4.k-V_c6x3VVmGMV8CBoxQ4c-pDxUPDKVaYr0ibScfYmUg.cLZNNBPSqZJiRrMTRtX9PTyn6IMS0k4v5o2tp8Y4_4Qg.PNG.sooftware/image.png?type=w773)  
+
+arther => are there, n tickets => any tickets 등 꽤나 말이 되도록 틀린 것을 볼 수 있다.    
+본 논문은 이보다 더 정확한 인식을 위하여 N-gram Language Model을 사용했다고 한다.  
   
-본 논문은 더 정확한 인식을 위하여 N-gram Language Model을 사용했다.  
+매우 방대한 텍스트 Corpus로 N-gram language model을 학습시켰으며, 해당 언어 모델은 다음 공식에 사용됐다.  
   
-(아직 작성 중입니다)  
+![scoring](https://postfiles.pstatic.net/MjAyMDAyMjNfMTY1/MDAxNTgyMzkwNTcxMjQ0.cLKWNiiavUqrxHaBijz7yBT90bD-7QwqpA9My0qtc6Ug.67kMZDDcCx0HnvPj6hKRbAmAsuXhRhTT1Lihbx-TBKcg.PNG.sooftware/image.png?type=w773)  
+  
+여기서 알파, 베타는 설정 가능한 파라미터이다.  
+본 논문에서는 성능을 향상시키기 위해 빔서치를 사용했는데, 이때 빔 사이즈를 1,000 - 8,000으로 상당히 크게 준 것을 볼 수 있었다.  
+이후에 나온 논문들을 봤을 때, 빔 사이즈 단위는 기껏 해봐야 수십 정도였는데 본 논문은 상당히 큰 빔 사이즈를 사용한 것을 볼 수 있었다.  
+  
+## Optimizations  
+  
+해당 장에서는 어떻게 최적화를 했는지에 대해 설명하고 있다.  
+주로 빠른 학습을 시키기 위해 어떤 노력을 했는지를 설명했다.  
+  
+### Data Parallelism 
+  
+데이터를 효과적으로 처리하기 위해 2-level data parallelism을 사용했다고 한다.  
+  
+미니배치 단위로 처리를 했는데, 이때 배치의 크기를 GPU 메모리 한계까지 사용했다고 한다.  
+  
+또한, 학습을 빨리하기 위해 NMT와 같은 Text-NLP에서 많이 사용되는, 길이 순으로 정렬해서 비슷한 길이끼리 배치로 묶었다고 한다. 이렇게 비슷한 길이끼리 배치로 묶게 되면, 배치 안에서 Max Length를 맞추기 위해 PAD token을 최소화 할 수 있다.  
+   
+(아직 작성중입니다.)  
+  
+
