@@ -10,4 +10,5 @@
 * \[2019/04\] **SpecAugment:  A Simple Data Augmentation Method for Automatic Speech Recognition** : *SpecAugment*
   
 ## *NLP*  
+* \[2017/03\] **A Structured Self-attentive Sentence Embedding** : *Self Attention*
 * \[2017/09\] **Attention Is All You Need** : *Transformer*
