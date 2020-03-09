@@ -10,5 +10,5 @@
 * \[2019/04\] **SpecAugment:  A Simple Data Augmentation Method for Automatic Speech Recognition** : *SpecAugment*
   
 ## *NLP*  
-* \[2017/03\] **A Structured Self-attentive Sentence Embedding** : *Self Attention*
+* \[2017/03\] [**A Structured Self-attentive Sentence Embedding**](https://github.com/sh951011/Paper-Review/blob/master/A%20Structured%20Self-attentive%20Sentence%20Embedding.md) : *Self Attention*
 * \[2017/09\] **Attention Is All You Need** : *Transformer*
