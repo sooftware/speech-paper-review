@@ -35,8 +35,8 @@ Transformer에서는 Multi-Head Attention, Scaled-Dot 등의 개념이 결합되
   
 Self-Attention의 수식은 간단합니다.  
   
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;a=\space
-{softmax(W_2tanh(W_1H^T))}"/>  
+
+<img src="https://postfiles.pstatic.net/MjAyMDAzMTBfMTU5/MDAxNTgzNzkzMjUwNDk2.wlO1eB5jN1tuYW4gbXGkSchwaY0mcwimcGBYqwNoix4g.a29JuOtcOqjr6iHNDubN5ZdxPNF1hMwZExfKnVnZVukg.PNG.sooftware/image.png?type=w773">  
   
 Bi-LSTM에서 나온 H와 weight를 행렬곱을 하고 (여기서 weight는 학습되는 벡터입니다.)  tanh를 이용하여 [-1, 1]의 범위로 맞춰줍니다.  
   
