@@ -288,7 +288,9 @@ ASR 모델에서 나온 log-probability와 LM 모델에서 나온 log-probabilit
   
 실험 결과에 대한 자세한 설명은 생략하겠습니다.  
 아래 표를 참고 혹은 [본 논문](https://arxiv.org/abs/1904.08779)을 참고하시면 자세한 결과를 보실 수 있습니다.  
-
+  
+논문의 결과를 요약하자면, 제안한 Time Warp, Frequency Masking, Time Masking 중 Time Warp는 계산도 오래 걸리지만, 성능이 그리 좋지는 않은 것으로 판단된다고 합니다. 그래서 학습시간이 넉넉치 않다면 Frequency Masking, Time Masking만을 적용하더라도 충분한 결과를 얻을 수 있을 것이라고 언급하고 있습니다.  
+  
 ![table-2](https://postfiles.pstatic.net/MjAyMDAzMTBfMTcx/MDAxNTgzODQ1NTk4MzE2.tMzhyDck9DbiCaujYGfjzqKPD7gmqqtbFqiYSw5zQIIg.q-FVlIQo_F3F1iDPPECf2SHlczIV9KO-tK5oOQhI5RIg.PNG.sooftware/image.png?type=w773)  
   
 ![table-3](https://postfiles.pstatic.net/MjAyMDAzMTBfMjYw/MDAxNTgzODQ1NjEyODgw.-45_JNKhgLATY6TdLVOpdSNWbWf4KURTYQWT1np7oY4g.DjX7ThjfaXDKEareVgQ0J_A0X_rlcSN8C39l3fxnBM4g.PNG.sooftware/image.png?type=w773)  
