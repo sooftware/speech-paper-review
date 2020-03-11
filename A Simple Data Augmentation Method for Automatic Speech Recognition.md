@@ -289,10 +289,32 @@ ASR 모델에서 나온 log-probability와 LM 모델에서 나온 log-probabilit
 실험 결과에 대한 자세한 설명은 생략하겠습니다.  
 아래 표를 참고 혹은 [본 논문](https://arxiv.org/abs/1904.08779)을 참고하시면 자세한 결과를 보실 수 있습니다.  
   
-논문의 결과를 요약하자면, 제안한 Time Warp, Frequency Masking, Time Masking 중 Time Warp는 계산도 오래 걸리지만, 성능이 그리 좋지는 않은 것으로 판단된다고 합니다. 그래서 학습시간이 넉넉치 않다면 Frequency Masking, Time Masking만을 적용하더라도 충분한 결과를 얻을 수 있을 것이라고 언급하고 있습니다.  
-  
 ![table-2](https://postfiles.pstatic.net/MjAyMDAzMTBfMTcx/MDAxNTgzODQ1NTk4MzE2.tMzhyDck9DbiCaujYGfjzqKPD7gmqqtbFqiYSw5zQIIg.q-FVlIQo_F3F1iDPPECf2SHlczIV9KO-tK5oOQhI5RIg.PNG.sooftware/image.png?type=w773)  
   
 ![table-3](https://postfiles.pstatic.net/MjAyMDAzMTBfMjYw/MDAxNTgzODQ1NjEyODgw.-45_JNKhgLATY6TdLVOpdSNWbWf4KURTYQWT1np7oY4g.DjX7ThjfaXDKEareVgQ0J_A0X_rlcSN8C39l3fxnBM4g.PNG.sooftware/image.png?type=w773)  
   
-![table-4](https://postfiles.pstatic.net/MjAyMDAzMTBfMjgg/MDAxNTgzODQ1NjU0NzU0.8NOTM44yvEVFRPGaoG0XLUSUkDFaHWhhryHoPgloVYgg.kmqtc_t6koHaA16c8ji-1X2VSev0pbprlrlAlcT-AXMg.PNG.sooftware/image.png?type=w773)
+![table-4](https://postfiles.pstatic.net/MjAyMDAzMTBfMjgg/MDAxNTgzODQ1NjU0NzU0.8NOTM44yvEVFRPGaoG0XLUSUkDFaHWhhryHoPgloVYgg.kmqtc_t6koHaA16c8ji-1X2VSev0pbprlrlAlcT-AXMg.PNG.sooftware/image.png?type=w773)  
+  
+## Discussion
+
+자, 이제 얻어진 결과에 대해 해석해보는 시간입니다.  
+
+### Time waiping contributes, but is not a major factor in improving performance.  
+  
+제안한 Time Warp, Frequency Masking, Time Masking 중 Time Warp는 계산은 오래 걸리는데 반하여, 성능이 그리 좋지는 않습니다. 그래서 학습시간이 넉넉치 않다면 Frequency Masking, Time Masking만을 적용하더라도 충분한 결과를 얻을 수 있을 것이라고 언급하고 있습니다.  
+  
+### Label smoothing introduces instability to training.  
+  
+Label Smoothing은 Augmentation과 같이 적용될 때 눈에 띄는 성과를 냈다고 언급합니다. 그 이유에 대해 추측해보자면, Masking, Warp와 같은 조작이 들어가게 되면 어느 정도의 변형이 된 것이기 때문에 완벽하게 ~~한 데이터라고 표현할 수는 없을 것입니다. 그래서 이러한 Confidence를 줄여주는 Label-Smoothing과 Collaboration이 되면 더 큰 효과를 내는 것이 아닐까 추측해봅니다 ㅎㅎ..
+  
+### Augmentation converts an over-fitting problem into an under-fitting problem.  
+  
+Augmentation은 오버피팅 되는 문제를 언더피팅으로 바꿔주는 효과가 있다는 말입니다. Augmentation이 적용 되지 않은 데이터셋으로만 학습을 하게 되면, 아무래도 오버피팅이 날 확률이 높습니다. 하지만, Augmentation을 적용해주게 되면 아무래도 기존의 Training 데이터셋에 대하여 Overfitting이 나기 힘든 환경이 될 것입니다. 본 논문에서는 이를 over-fitting => under-fitting 되는 효과가 있다고 표현했습니다.  
+  
+### Common methods of addressing under-fitting yield improvements.  
+  
+그럼 이때 발생하는 under-fitting 문제를 어떻게 해결했는지에 대한 답입니다. 간단합니다. 네트워크를 깊게 만들고 학습을 오래시키면 됩니다. 보통 over-fitting이 문제지, under-fitting이 문제라면 전통적인 방법인 네트워크를 깊게하고, 학습을 오래시키면 해결 가능합니다.
+  
+## Conclusion
+  
+다른 논문들은 인식률 개선을 위해 **Network**에 집중할 때, Augmentation, Learning Rate Schedule, Loss 계산 등에 집중해서 **State-Of-The-Art**를 달성한 "기본에 충실하자"라는 깨달음을 준 논문입니다. 또한 제가 진행하고 있는 한국어 음성 인식 프로젝트에 많은 영감을 줬고, 실제로 논문에 등장한 거의 대부분의 내용을 적용하여 학습을 진행중입니다. 기회가 된다면 해당 모델로 나온 결과에 대해서도 리뷰하겠습니다. 읽어주셔서 감사합니다.
