@@ -158,10 +158,12 @@ def time_masking(feat, T = 70, time_mask_num = 2):
 Frequency Masking과 Time Masking 적용 시 주의점은, 마스킹하는 영역의 범위를 적당하게 지정해주어야 합니다.  
 너무 많이 / 적게 적용한다면 Augmentation의 효과가 덜하거나 심한 경우 Noise가 될 수 있습니다.  
 
-![single-apply](https://postfiles.pstatic.net/MjAyMDAzMTBfMjIg/MDAxNTgzODQ1NTYyMzM4.XRrmYCSrQ9_O8qTKwE1n-ID2FBAJCpZhk7aDKldzXesg.qzR6Wgn8RU5kQbsx2hKadUkpYm0Ymqj5RQc5zIcl2Zcg.PNG.sooftware/image.png?type=w773)  
+![single-apply](https://postfiles.pstatic.net/MjAyMDAzMTFfMjQ0/MDAxNTgzOTI5MTczODMw.h_LZ2BHfuKenmYoYm03R39JkHzkwb5pwJFr5Anevk94g.3z7LCzVNzqyvP5RbyJy6CLJgvSr6JiIm2v-Q3qBg3K0g.PNG.sooftware/image.png?type=w773)  
   
 Figure 1은 위에서 아래 방향으로 기존 Spectrogram, Time Warp, Frequency Mask, Time Mask가 각각 적용된 Spectrogram입니다.  
   
+![double-apply](https://postfiles.pstatic.net/MjAyMDAzMTFfMTMx/MDAxNTgzOTI5MTg0MTM4.U2ewywMqX-5_QiZhBSzjqiaDCbbN2htdwSKqy4hBiPgg.NKf6UT6SZdaj6ChHloytSNkvIDvmaUgdy-ZgH-QDvbgg.PNG.sooftware/image.png?type=w773)
+
 본 논문은 Frequency Masking과 Time Masking을 동시에 적용하는 것을 고려했다고 합니다. 2 마스킹을 동시에 적용하게 되면 Figure 2와 같은 Spectrogram이 나오게 됩니다. 
   
 본 논문은 각각 적용하는 것과 동시에 적용하는 실험을 진행했고, 결과로 나온 파라미터는 다음과 같습니다.  
@@ -201,3 +203,94 @@ def spec_augment(feat, T = 70, F = 20, time_mask_num = 2, freq_mask_num = 2):
 
     return feat
 ```
+  
+## Model
+  
+본 논문은 [「Listen, Attend and Spell」](https://github.com/sh951011/Paper-Review/blob/master/Listen%2C%20Attend%20and%20Spell.md) 모델을 사용했습니다. LAS 모델 같은 경우는 음성 인식 분야에서 end-to-end의 대표적인 모델로써, 구조가 간단하며, 관련 연구도 많이 진행된 구조입니다. 첫번째 절에서 이 모델에 대한 Review 및 파라미터들에 대해 소개하고, 2번째 절에서는 Learning Rate Schedules에 대해 다룹니다. 이 Learning Rate Schedule은 퍼포먼스에 많은 영향을 미쳤다고 소개합니다. 또한 앞에서 언급했던 shallow fusion에 대해서 3번째 절에서 다룹니다.  
+  
+### LAS Network Architectures
+  
+본 논문은 LAS Network 중 [「Model Unit Exploration for Sequence-to-Sequence Speech Recognition」](https://arxiv.org/abs/1902.01955)에서 사용된 구조를 사용했다고 밝힙니다. ( 제가 진행하고 있는 한국어 음성인식 프로젝트도 역시 LAS Network를 사용하기 때문에 해당 논문도 읽고 리뷰를 쓸 예정입니다. )  
+  
+<img src="https://user-images.githubusercontent.com/7529838/33699263-69206498-db55-11e7-8295-029e0b012f32.png" width=500>  
+
+  
+해당 논문은 log mel spectrogram을 입력으로 받아, 2-Layer의 maxpooling이 적용된 CNN을 거칩니다. (stride = 2) 그리고 이렇게 CNN을 거쳐서 나온 아웃풋을 인코더의 stacked Bi-LSTM의 입력으로 넣습니다. 그리고 인코딩을 거친 아웃풋을 어텐션 기반의 디코더에 넣어 예측 시퀀스를 뽑아냅니다. (디코더 레이어 사이즈 = 2)
+  
+### Learning Rate Schedules
+  
+이 섹션에서는 학습율을 어떻게 관리했는지에 대해서 소개하고 있습니다. 이렇게 하나의 학습율을 사용하는 것이 아닌, 학습 도중 학습율을 조정하면서 사용하는 것을 Multi-step Learning Rate라고 합니다. 본 논문에서는 총 4단계의 Learning Rate Scheduling을 적용했습니다. 
+
+다음 그림으로 보시면 이해가 조금 더 쉬울 겁니다.  
+  
+![lr-sch](https://postfiles.pstatic.net/MjAyMDAzMTFfMjc5/MDAxNTgzOTMxNTM4ODE1.MwAId31eYiiH2o8B4F_JB4alld4r_h2EbkX9I6LJzZsg.enwL-u3ws1Y3Xz9hJRPqLGsJ3h9uX-lSSsB1WCpNR1Ig.PNG.sooftware/image.png?type=w773)  
+  
+좌측의 lr의 특정 값은 제가 진행하고 있는 프로젝트에서 적용한 값이므로 무시하셔도 좋습니다.   
+  
+ **Ramp-up**: 학습율이 0부터 시작하여 특정 값까지 급격하게 증가시키는 구간입니다. [0, s_r]   
+
+ **High Plateau**: 특정 값에 다다르면 학습율을 유지시키는 구간이 High Plateau입니다. [s_r, s_i]  
+ **Exponential Decay**: 스텝이 s_i에 다다르면, s_f까지 High Plateau에서 사용한 학습율의 1 / 100로 지수적으로 감소시키면서 진행합니다. [s_i, s_f]   
+ **Low Plateau**: 이 시점 이후에는 학습률을 계속 유지합니다. [s_f, ~]    
+   
+High Plateau 구간 중 [s_r, s_noise]까지는 학습율에 deviation이 0.075인 noise를 끼워서 진행하고, s_noise 이후에는 기존 학습율을 유지한다고 합니다. 학습율이 가장 중요한 하이퍼파라미터라는 말답게 상당히 많은 고민을 한 모습입니다.  
+  
+그리고 본 논문에서는 이러한 구간을 총 3개로 나눠서 실험을 진행했습니다.  
+  
+1. **B**(asic): (s_r, s_noise, s_i, s_f) = (0.5K, 10K, 20K, 80K)  
+2. **D**(ouble): (s_r, s_noise, s_i, s_f) = (0.5K, 20K, 40K, 160K)  
+3. **L**(ong): (s_r, s_noise, s_i, s_f) = (1K, 20K, 140K, 320K)  
+  
+이에 대한 실험의 결과는 뒤에서 살펴보겠습니다.  
+  
+### Label-Smoothing
+  
+또한 본 논문은 Label-Smoothing을 적용했다고 밝힙니다. Label-Smoothing은 데이터에 대한 Over-Confidence를 조금 덜어주는 역할을 합니다. 아마 Overfitting은 많이 봤겠지만, Over-Confidence는 생소한 분들이 많으실 겁니다. Over-Confidence란 데이터를 너무 믿는다는 겁니다. 아무래도 레이블링이라는 작업이 결국은 사람이 하는 것이다 보니, 어느 정도의 오류가 있습니다. 이러한 오류가 있는 데이터를 학습하다보면 아무래도 정확한 학습하기가 힘듭니다. 그래서 이러한 Over-Confidence를 줄여주기 위하여 Label-Smoothing이라는 개념이 있습니다.  
+  
+정확히 말하자면 Label-Smoothing loss입니다. loss를 계산할 때 적용이 됩니다. loss 계산시에, 원-핫 인코딩 되어 있는 레이블링에 의해 정답에 대해서만 loss가 계산되지만, 이때 정답 레이블은 1, 나머지 레이블은 0으로 되어 있는 것이 아니라, 정답 레이블은 confidence, 나머지 레이블은 uncertainty로 바꾸어 loss 계산을 합니다.  
+  
+confidence + uncertainty = 1.0이 되도록 설정을 합니다.   
+  
+아래는 이를 PyTorch로 이를 구현한 코드입니다.  
+  
+```python
+class LabelSmoothingLoss(nn.Module):
+    def __init__(self, vocab_size, ignore_index, smoothing=0.1, dim=-1):
+        super(LabelSmoothingLoss, self).__init__()
+        self.confidence = 1.0 - smoothing
+        self.smoothing = smoothing
+        self.vocab_size = vocab_size
+        self.dim = dim
+        self.ignore_index = ignore_index
+
+    def forward(self, logit, target):
+        with torch.no_grad():
+            label_smoothed = torch.zeros_like(logit)
+            label_smoothed.fill_(self.smoothing / (self.vocab_size - 1))
+            label_smoothed.scatter_(1, target.data.unsqueeze(1), self.confidence)
+            label_smoothed[target == self.ignore_index, :] = 0
+        return torch.sum(-label_smoothed * logit)
+
+>>> criterion = LabelSmoothingLoss(vocab_size, ignore_index, smoothing=0.1, dim=-1)  
+```
+  
+본 논문은 confidence는 0.9, uncertainty는 0.1을 적용했다고 합니다.  
+  
+### Shallow Fusion with Language Model
+  
+Augmentation만으로도 State-Of-The-Art를 달성했지만, 조금 더 개선하기 위해 Language Model과 Shallow Fusion을 진행했다고 합니다.  
+  
+![shallow-fusion](https://postfiles.pstatic.net/MjAyMDAzMTFfMTM2/MDAxNTgzOTMzMjUyMzE5.OeKVkHOPDc8bAkcPAWfKnzdZTrlBgN_YyFmMJC2OcpYg.rX6CAAKNiOA0wE4koc2p7dlArfXJ2iqbElNHmP_Zf6Ug.PNG.sooftware/image.png?type=w773)  
+  
+ASR 모델에서 나온 log-probability와 LM 모델에서 나온 log-probability를 적절히 고려해주어서 y_hat을 결정하게 됩니다. 앞에서 언급했었던 성능향상을 위해 적용하는 기법 중 하나인 Ensemble과 비슷한 효과를 내는 방법이라고 합니다.  
+  
+## Experiments
+  
+실험 결과에 대한 자세한 설명은 생략하겠습니다.  
+아래 표를 참고 혹은 [본 논문](https://arxiv.org/abs/1904.08779)을 참고하시면 자세한 결과를 보실 수 있습니다.  
+
+![table-2](https://postfiles.pstatic.net/MjAyMDAzMTBfMTcx/MDAxNTgzODQ1NTk4MzE2.tMzhyDck9DbiCaujYGfjzqKPD7gmqqtbFqiYSw5zQIIg.q-FVlIQo_F3F1iDPPECf2SHlczIV9KO-tK5oOQhI5RIg.PNG.sooftware/image.png?type=w773)  
+  
+![table-3](https://postfiles.pstatic.net/MjAyMDAzMTBfMjYw/MDAxNTgzODQ1NjEyODgw.-45_JNKhgLATY6TdLVOpdSNWbWf4KURTYQWT1np7oY4g.DjX7ThjfaXDKEareVgQ0J_A0X_rlcSN8C39l3fxnBM4g.PNG.sooftware/image.png?type=w773)  
+  
+![table-4](https://postfiles.pstatic.net/MjAyMDAzMTBfMjgg/MDAxNTgzODQ1NjU0NzU0.8NOTM44yvEVFRPGaoG0XLUSUkDFaHWhhryHoPgloVYgg.kmqtc_t6koHaA16c8ji-1X2VSev0pbprlrlAlcT-AXMg.PNG.sooftware/image.png?type=w773)
