@@ -223,7 +223,7 @@ def spec_augment(feat, T = 70, F = 20, time_mask_num = 2, freq_mask_num = 2):
 
 다음 그림으로 보시면 이해가 조금 더 쉬울 겁니다.  
   
-![lr-sch](https://postfiles.pstatic.net/MjAyMDAzMTFfMjc5/MDAxNTgzOTMxNTM4ODE1.MwAId31eYiiH2o8B4F_JB4alld4r_h2EbkX9I6LJzZsg.enwL-u3ws1Y3Xz9hJRPqLGsJ3h9uX-lSSsB1WCpNR1Ig.PNG.sooftware/image.png?type=w773)  
+<img src="https://postfiles.pstatic.net/MjAyMDAzMTFfMjc5/MDAxNTgzOTMxNTM4ODE1.MwAId31eYiiH2o8B4F_JB4alld4r_h2EbkX9I6LJzZsg.enwL-u3ws1Y3Xz9hJRPqLGsJ3h9uX-lSSsB1WCpNR1Ig.PNG.sooftware/image.png?type=w773" width = 500>  
   
 좌측의 lr의 특정 값은 제가 진행하고 있는 프로젝트에서 적용한 값이므로 무시하셔도 좋습니다.   
   
