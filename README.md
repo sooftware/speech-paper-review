@@ -7,6 +7,7 @@
 * \[2014/12\] [**Deep Speech: Scaling up end-to-end speech recognition**](https://github.com/sh951011/Paper-Review/blob/master/Deep%20Speech-Scaling%20up%20end-to-end%20speech%20recognition.md) : *Deep Speech*  
 * \[2015/06\] [**Attention-Based Models for Speech-Recognition**](https://github.com/sh951011/Paper-Review/blob/master/Attention-Based%20Models%20for%20Speech%20Recognition.md) : *Hybrid Attention*  
 * \[2015/08\] [**Listen, Attend and Spell**](https://github.com/sh951011/Paper-Review/blob/master/Listen%2C%20Attend%20and%20Spell.md) : *LAS*  
+* \[2019/02\] **Model Unit Exploration for Sequence-to-Sequence Speech Recognition**
 * \[2019/04\] [**SpecAugment:  A Simple Data Augmentation Method for Automatic Speech Recognition**](https://github.com/sh951011/Paper-Review/blob/master/A%20Simple%20Data%20Augmentation%20Method%20for%20Automatic%20Speech%20Recognition.md) : *SpecAugment*
   
 ## *NLP*  
