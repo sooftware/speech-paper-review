@@ -6,7 +6,7 @@ https://arxiv.org/abs/1904.08779
   
 ## Abstract
   
-모델의 Overfitting을 막기 위해 가장 좋은 방법은 데이터가 많은 것입니다. 하지만 데이터가 뿅! 하고 생기는 것이 아니기 때문에 기존 데이터를 활용하여 새로운 데이터를 만들어내는 Augmentation이라는 기법을 사용합니다. 본 논문에서는 음성인식을 위한 간단한 Data-Augmentation을 제안하고, 이를 SpecAugment라고 명명했습니다. 본 논문은 오디오에서 뽑은 피쳐 벡터 (MFCC or Mel-Spectrogram etc ..) 를 input으로 Time warping, Frequency masking, Time masking 3가지 방법으로 Augmentation을 적용했습니다. 성능 테스트를 위한 모델로는 [「Listen, Attend and Spell」](https://github.com/sh951011/Paper-Review/blob/master/Listen%2C%20Attend%20and%20Spell.md) (LAS) 모델을 사용했으며, Language Model과의 **Shallow Fusion**을 통해 인식률 개선을 이뤄냈다고 밝히고 있습니다. 본 논문의 모델은 [LibriSpeech 960h](http://www.openslr.org/12/) 데이터셋과 [Swichboard 300h](https://catalog.ldc.upenn.edu/LDC97S62) 데이터셋에서 **State-Of-The-Art (SOTA)** 를 달성했습니다. 달성한 결과는 아래 표에 정리했습니다.    
+모델의 Overfitting을 막기 위해 가장 좋은 방법은 데이터가 많은 것입니다. 하지만 데이터가 뿅! 하고 생기는 것이 아니기 때문에 기존 데이터를 활용하여 새로운 데이터를 만들어내는 Augmentation이라는 기법을 사용합니다. 본 논문에서는 음성인식을 위한 간단한 Data-Augmentation을 제안하고, 이를 SpecAugment라고 명명했습니다. 본 논문은 오디오에서 뽑은 피쳐 벡터 (MFCC or Mel-Spectrogram etc ..) 를 input으로 Time warping, Frequency masking, Time masking 3가지 방법으로 Augmentation을 적용했습니다. 성능 테스트를 위한 모델로는 [「Listen, Attend and Spell」](https://github.com/sh951011/Paper-Review/blob/master/Review/Listen%2C%20Attend%20and%20Spell.md) (LAS) 모델을 사용했으며, Language Model과의 **Shallow Fusion**을 통해 인식률 개선을 이뤄냈다고 밝히고 있습니다. 본 논문의 모델은 [LibriSpeech 960h](http://www.openslr.org/12/) 데이터셋과 [Swichboard 300h](https://catalog.ldc.upenn.edu/LDC97S62) 데이터셋에서 **State-Of-The-Art (SOTA)** 를 달성했습니다. 달성한 결과는 아래 표에 정리했습니다.    
   
 
 |Dataset|LibriSpeech 960h|LibriSpeech 960h|Swichboard 300h|Swichboard 300h|    
@@ -206,7 +206,7 @@ def spec_augment(feat, T = 70, F = 20, time_mask_num = 2, freq_mask_num = 2):
   
 ## Model
   
-본 논문은 [「Listen, Attend and Spell」](https://github.com/sh951011/Paper-Review/blob/master/Listen%2C%20Attend%20and%20Spell.md) 모델을 사용했습니다. LAS 모델 같은 경우는 음성 인식 분야에서 end-to-end의 대표적인 모델로써, 구조가 간단하며, 관련 연구도 많이 진행된 구조입니다. 첫번째 절에서 이 모델에 대한 Review 및 파라미터들에 대해 소개하고, 2번째 절에서는 Learning Rate Schedules에 대해 다룹니다. 이 Learning Rate Schedule은 퍼포먼스에 많은 영향을 미쳤다고 소개합니다. 또한 앞에서 언급했던 shallow fusion에 대해서 3번째 절에서 다룹니다.  
+본 논문은 [「Listen, Attend and Spell」](https://github.com/sh951011/Paper-Review/blob/master/Review/Listen%2C%20Attend%20and%20Spell.md) 모델을 사용했습니다. LAS 모델 같은 경우는 음성 인식 분야에서 end-to-end의 대표적인 모델로써, 구조가 간단하며, 관련 연구도 많이 진행된 구조입니다. 첫번째 절에서 이 모델에 대한 Review 및 파라미터들에 대해 소개하고, 2번째 절에서는 Learning Rate Schedules에 대해 다룹니다. 이 Learning Rate Schedule은 퍼포먼스에 많은 영향을 미쳤다고 소개합니다. 또한 앞에서 언급했던 shallow fusion에 대해서 3번째 절에서 다룹니다.  
   
 ### LAS Network Architectures
   

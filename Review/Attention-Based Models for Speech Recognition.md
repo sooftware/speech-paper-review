@@ -153,11 +153,6 @@ Sigmoid로 Top-k frame과 아닌 frame들을 구분해주는 방식이라고 나
 기본 모델보다는 Convolution을 적용한 모델이 더 좋은 결과를 내었고,  
 Smoothing까지 적용한 모델이 최상의 성적을 내었다.  
   
-## Implementation
-  
-Dot-Product Attention, Content-Based Attention, Hybrid-Attention까지 구현한 링크입니다.  
-https://github.com/sh951011/Korean-Speech-Recognition/blob/master/models/attention.py  
-  
 오류, 피드백, 질문 무엇이든지 환영합니다.  
 
 email1 : sh951011@gmail.com  
