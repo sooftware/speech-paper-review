@@ -11,3 +11,6 @@ https://arxiv.org/abs/1712.01769
   
 ## Introduction
   
+Sequence-to-Sequence 모델은 Autonomic Speech Recognition (ASR) Task에서 탁월한 성능을 보여주었습니다. 이 글을 쓰는 지금 2020년에도 아직까지 관련 논문들과 SOTA를 Sequence-to-Sequence 모델이 점유하고 있습니다. Neural Machine Translation 분야는 Seq2seq 보다는 Transformer 모델이 더 빠르고 좋은 성능을 내는 듯 합니다만, Speech 분야에서는 Transformer 모델이 다소 부진한 듯 합니다. (NMT에서의 압도적인 성능에 비해서입니다 ㅎㅎ..) 제가 네이버 AI 해커톤 참여 당시, 멘토분께서 Transformer는 데이터가 적을 때 성능이 그렇게 좋지는 않다고 하셨습니다. 아마 데이터가 적은 음성 분야라 더 두드러지는 특징이 아닐까 싶습니다. 실제로 네이버 대회 당시 100시간이라는 한정된 데이터로 진행을 하다보니, Transformer를 사용한 팀들이 어텐션 기반의 Seq2seq 모델을 사용한 팀들에게 밀리는 현상이 있었습니다. 본 논문도 Transformer보다 뒤에 나온 논문이지만, Transformer가 아닌 Seq2seq 기반으로 모델을 구성한 것을 볼 수 있습니다. 단, Transformer를 제안한 「Attention Is All You Need」 논문에서 나온 **Multi-Head Attention**을 사용했습니다. 또한 뒤에서 다룰 **Word-Piece Model (WPM)**, **Scheduled Sampling (SS)**, **label smoothing**, **Asynchronous SGD**, **language model** 등을 사용했습니다. 자세한 내용은 뒤에서 다루겠습니다.
+
+ 
