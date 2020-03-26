@@ -55,3 +55,61 @@ MHA는 기존의 어텐션을 multiple head로 확장한 구조입니다. 기존
   
 본 논문에서는 MHA를 적용 전, 후를 따로 비교하지는 않을 것 같습니다만, 제가 진행하는 음성 인식 프로젝트에서 비교해본 결과 MHA를 적용했던 모델이 압도적으로 좋은 성능을 보였습니다.
   
+### Scheduled Sampling
+  
+본 논문에서 적용한 Scheduled Sampling이라는 개념에 대해 서술합니다.  
+  
+![teacher_forcing](https://postfiles.pstatic.net/MjAyMDAxMzFfMTcg/MDAxNTgwMzk4NTc3MzE2.rfhepBTuNa7UuGl7t4O2AAtVytd3Yd2d731im7KZ_jwg.kO58sY_DL9sBLx1LlZzq5A3hAplPA0gJA-6q4ZDr7Owg.PNG.sooftware/image.png?type=w773)
+
+Seq2seq 구조에서는 학습을 빠르게 시키기 위해 [티쳐포싱](https://blog.naver.com/sooftware/221790750668)이라는 기법을 사용합니다. Seq2seq구조는 원래 이전 타임스텝의 추론 char / word를 다음 타임스텝의 입력으로 넣어야 합니다만, 학습 초기에는 대부분 잘못된 추론 결과가 나오게 됩니다. 이러한 부분을 개선해주기 위하여 이전 타임스텝 추론 결과가 아닌, Ground Truth를 넣어줌으로써 빠른 학습을 가능하게끔 해주는 기법입니다.  
+  
+#### Exposure Bias Problem
+  
+하지만 이러한 티쳐포싱 기법에는 단점이 있습니다. 학습 중에는 Ground Truth를 가지고 있지만, 실제 추론 과정에서는 Ground Truth가 없습니다. 그렇기 때문에 학습 과정과 추론 과정에서 차이(discrepancy)가 발생하게 됩니다.
+  
+![ss](https://postfiles.pstatic.net/MjAyMDAzMjZfMjc2/MDAxNTg1MjI1MjgwMDY2.4R2zFNqKvHotWWe7owD9cDRVO8dUpYZ7A2Sl7D6LbNEg.1DPR5iaZpI3yrEN9Mzzgr9v6KoA43Li4qDb9ZrrD5jog.PNG.sooftware/image.png?type=w773)
+
+본 논문은 이러한 Exposure Bias Problem의 차이를 줄이기 위해서 스케쥴링을 해줍니다.  
+학습 초기에는 티쳐포싱 100%로 진행이 되지만, 학습이 진행될수록 비율을 점점 낮춰서 최종적으로는 티쳐포싱 60%까지 줄여서 학습을 진행했다고 합니다.  
+이렇게 스케쥴링 해줌으로써 실제 추론과 학습 단계에서의 차이를 줄였다고 합니다.  
+  
+### Label-Smoothing
+  
+또한 본 논문은 Label-Smoothing을 적용했다고 밝힙니다. Label-Smoothing은 데이터에 대한 Over-Confidence를 조금 덜어주는 역할을 합니다. 아마 Overfitting은 많이 봤겠지만, Over-Confidence는 생소한 분들이 많으실 겁니다. Over-Confidence란 데이터를 너무 믿는다는 겁니다. 아무래도 레이블링이라는 작업이 결국은 사람이 하는 것이다 보니, 어느 정도의 오류가 있습니다. 이러한 오류가 있는 데이터를 학습하다보면 아무래도 정확한 학습하기가 힘듭니다. 그래서 이러한 Over-Confidence를 줄여주기 위하여 Label-Smoothing이라는 개념이 있습니다.  
+  
+정확히 말하자면 Label-Smoothing loss입니다. loss를 계산할 때 적용이 됩니다. loss 계산시에, 원-핫 인코딩 되어 있는 레이블링에 의해 정답에 대해서만 loss가 계산되지만, 이때 정답 레이블은 1, 나머지 레이블은 0으로 되어 있는 것이 아니라, 정답 레이블은 confidence, 나머지 레이블은 uncertainty로 바꾸어 loss 계산을 합니다.  
+  
+confidence + uncertainty = 1.0이 되도록 설정을 합니다.   
+  
+아래는 이를 PyTorch로 이를 구현한 코드입니다.  
+  
+```python
+class LabelSmoothingLoss(nn.Module):
+    def __init__(self, vocab_size, ignore_index, smoothing=0.1, dim=-1):
+        super(LabelSmoothingLoss, self).__init__()
+        self.confidence = 1.0 - smoothing
+        self.smoothing = smoothing
+        self.vocab_size = vocab_size
+        self.dim = dim
+        self.ignore_index = ignore_index
+
+    def forward(self, logit, target):
+        with torch.no_grad():
+            label_smoothed = torch.zeros_like(logit)
+            label_smoothed.fill_(self.smoothing / (self.vocab_size - 1))
+            label_smoothed.scatter_(1, target.data.unsqueeze(1), self.confidence)
+            label_smoothed[target == self.ignore_index, :] = 0
+        return torch.sum(-label_smoothed * logit)
+
+>>> criterion = LabelSmoothingLoss(vocab_size, ignore_index, smoothing=0.1, dim=-1)  
+```
+  
+### Second-Pass Rescoring
+  
+물론 Seq2seq의 Decoder가 어느 정도의 language model의 성격을 갖습니다만, 훈련 데이터의 텍스트만이 반영되기 때문에 language model로서의 한계점은 분명합니다. 그래서 다른 논문에서도 그러하듯이, 방대한 텍스트 데이터로 학습한 external language model과 결합을 합니다. 다만 이러한 결합은 훈련 과정이 아닌, 추론 과정에서만 결합을 합니다.   
+  
+![equation](https://postfiles.pstatic.net/MjAyMDAzMjZfMTgy/MDAxNTg1MjI2Mjc1Mjg2.29UeaSIPa-Q8Zj240gWng9JP6MDGWKheLHTyEDL8sUsg.iiwPV2VpCFjjsMYlOAck_qHJrrtH_WTntaxBovbhkH8g.PNG.sooftware/image.png?type=w773)
+   
+위의 식과 같이, Acoustic Model에서 나온 확률과 Language Model에서 나온 확률, 단어의 개수를 고려하여 Rescoring을 해줍니다.   
+  
+
