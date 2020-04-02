@@ -1,8 +1,10 @@
 # <h1 align="center">:star2: Paper Review :star2:</h1>
   
-<p align=center><i> Speech · NLP </i></p>  
+<p align=center><i> A Repository For Reviews Of Papers I Read </i></p>  
+<p align=center><i> <a href = "https://sooftware.github.io/">  GOTO Sooftware`s blog   </a> </i></p>  
+<p align=center><i> <img src="https://img.shields.io/badge/license-MIT-yellow"> <img src="https://img.shields.io/badge/contributors-welcome-yellowgreen"> </i></p>  
   
-## *Papers*  
+## Papers  
 * \[2014/11\] [**Voice Recognition Using MFCC Algorithm**](https://blog.naver.com/sooftware/221661644808) : *MFCC*    
 * \[2014/12\] [**Deep Speech: Scaling up end-to-end speech recognition**](https://github.com/sh951011/Paper-Review/blob/master/Review/Deep%20Speech-Scaling%20up%20end-to-end%20speech%20recognition.md) : *Deep Speech*  
 * \[2015/06\] [**Attention-Based Models for Speech-Recognition**](https://github.com/sh951011/Paper-Review/blob/master/Review/Attention-Based%20Models%20for%20Speech%20Recognition.md) : *Hybrid Attention*  
