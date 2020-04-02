@@ -8,8 +8,7 @@
 * \[2015/06\] [**Attention-Based Models for Speech-Recognition**](https://github.com/sh951011/Paper-Review/blob/master/Review/Attention-Based%20Models%20for%20Speech%20Recognition.md) : *Hybrid Attention*  
 * \[2015/08\] [**Listen, Attend and Spell**](https://github.com/sh951011/Paper-Review/blob/master/Review/Listen%2C%20Attend%20and%20Spell.md) : *LAS*  
 * \[2017/12\] [**State-of-the-art Speech Recognition With Sequence-to-Sequence Models**](https://github.com/sh951011/Paper-Review/blob/master/Review/State%20Of%20The%20Art%20Speech%20Recognition%20with%20Sequence%20to%20Sequence%20Models.md) : *Multi-Head Attention*
-* \[2017/12\] **An Analsis of Incorporating an External Language Model into a
-Sequence-to-Sequence Model**
+* \[2017/12\] [**An Analsis Of Incorporating An External Language Model Into A Sequence-to-Sequence Model**](https://github.com/sooftware/Paper-Review/blob/master/Review/An%20Analysis%20Of%20Incorporating%20An%20External%20Language%20Model%20Into%20A%20Sequence-to-Sequence%20Model.md)  
 * \[2019/02\] [**Model Unit Exploration for Sequence-to-Sequence Speech Recognition**](https://github.com/sh951011/Paper-Review/blob/master/Review/Model%20Unit%20Exploration%20for%20Sequence-to-Sequence%20Speech%20Recognition.md)
 * \[2019/04\] [**SpecAugment:  A Simple Data Augmentation Method for Automatic Speech Recognition**](https://github.com/sh951011/Paper-Review/blob/master/Review/A%20Simple%20Data%20Augmentation%20Method%20for%20Automatic%20Speech%20Recognition.md) : *SpecAugment*
   
