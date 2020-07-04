@@ -1,8 +1,7 @@
 # <h1 align="center">:star2: Paper Review :star2:</h1>
   
-<p align=center><i> A Repository For Reviews Of Papers I Read </i></p>  
-<p align=center><i> <a href = "https://blog.naver.com/sooftware">  GOTO Sooftware`s blog   </a> </i></p>  
-<p align=center><i> <img src="https://img.shields.io/badge/License-MIT-yellow"> <img src="https://img.shields.io/badge/contributors-welcome-yellowgreen"> </i></p>  
+<p align=center><i> Speech Recognition · NLP · Machine Learning </i></p>  
+<p align=center><i> Speech Synthesis · Speaker Recognition · Audio Signal Processing </i></p>  
   
 ## Papers  
 * \[2014/11\] [**Voice Recognition Using MFCC Algorithm**](https://blog.naver.com/sooftware/221661644808) : *MFCC*    
