@@ -16,7 +16,7 @@ arXiv (2020.06)
   
 ## Summary
 * BERT in Speech Recognition
-* Unsupervised learning with 53,000 hours of unlabeled speech data.
+* Representation learning with 53,000 hours of unlabeled speech data.
 * Excellent speech recognition performance with only 40 sentences (10 minutes) of labeled data 
   
 ## Abstract  
