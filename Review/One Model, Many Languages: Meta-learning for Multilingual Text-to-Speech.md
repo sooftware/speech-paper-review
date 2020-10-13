@@ -85,15 +85,9 @@ INTERSPEECH, 2020
 ## Dataset
   
 10개의 언어로 구성된 CSS10과 Common Voice 데이터셋의 일부를 사용
-  
-### CSS 10
+Code-switching을 학습하기 위해 multi-speaker 데이터가 필요 (언어와 화자 일치를 없애기 위해)   
   
 <img src="https://user-images.githubusercontent.com/42150335/95888064-9680c900-0dbb-11eb-9967-a30b21dbfa80.png" width=600>  
-  
-### Common Voice
-  
-Code-switching을 학습하기 위해, multi-speaker 데이터가 필요 (언어와 화자 일치를 없애기 위해)   
-German, French, Chinese, Dutch, Russian, Japanese, Spanish 언어들 데이터를 추가
 
 ## Experiment  
   
