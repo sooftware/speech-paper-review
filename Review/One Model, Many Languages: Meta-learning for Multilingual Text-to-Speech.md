@@ -72,21 +72,39 @@ INTERSPEECH, 2020
   
 ※ GEN과 다른점만 비교  
   
-* **Signal**
+* **Single (SGL)** 
+  + Monolingual Vanilla Tacotron 2 (Code-switching에 사용 X)
+* **Shared (SHA)** 
+  + GEN과 다르게 Tacotron 2의 인코더 사용 (Multilingual)  
+* **Separate (SEP)** 
+  + GEN과 같이 Multiple convolution layer를 사용
+  + Parameter generation 사용 X
+  + Adversarial speaker classifier 사용 X
 
 
 ## Dataset
   
+10개의 언어로 구성된 CSS10과 Common Voice 데이터셋의 일부를 사용
+  
 ### CSS 10
   
+<img src="https://user-images.githubusercontent.com/42150335/95888064-9680c900-0dbb-11eb-9967-a30b21dbfa80.png" width=600>  
+  
 ### Common Voice
-
+  
+Code-switching을 학습하기 위해, multi-speaker 데이터가 필요 (언어와 화자 일치를 없애기 위해)   
+German, French, Chinese, Dutch, Russian, Japanese, Spanish 언어들 데이터를 추가
 
 ## Experiment  
   
+SGL, SHA, SEP, GEN을 비교했을 때 GEN이 거의 모든 결과에서 우수한 성능을 보임
+  
+![image](https://user-images.githubusercontent.com/42150335/95888889-a816a080-0dbc-11eb-81a9-9a2d036f2def.png)  
+  
+<img src="https://user-images.githubusercontent.com/42150335/95888982-cbd9e680-0dbc-11eb-984f-1524ab3a9f38.png" width=400>
+  
 ## Conclusion
   
-* 본 논문에서 제안하는 모델은 Code-switching, Data-stress training에서 우월한 성능을 보임  
-* 뿐만 아니라, 발음의 정확도도 좋음  
-* 추후 연구로 어텐션 모듈을 수정하는 것을 생각중이라고 밝힘
+* 본 논문에서 제안하는 모델은 Multilingual Voice cloning, Code-switching에 우수한 성능을 보임
+* 추후 연구로 어텐션 모듈을 수정하는 것을 생각중이라고 함
   
