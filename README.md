@@ -17,4 +17,5 @@
 * \[2020/04\] [**ClovaCall: Korean Goal-Oriented Dialog Speech Corpus for ASR of Contact Centers**](https://github.com/sooftware/Paper-Review/blob/master/Review/ClovaCall%20-%20Korean%20Goal-Oriented%20Dialog%20Speech%20Corpus%20for%20Automatic%20Speech%20Recognition%20of%20Contact%20Centers.md)
 * \[2020/06\] [**Wav2vec 2.0: A Framework for Self-Supervised
 Learning of Speech Representations**](https://github.com/sooftware/Paper-Review/blob/master/Review/wav2vec%202.0%20:%20A%20Framework%20for%20Self-Supervised%20Learning%20of%20Speech%20Representations.md)  
-* \[2020/08\] [**One Model, Many Languages: Meta-learning for Multilingual Text-to-Speech**](https://github.com/sooftware/Paper-Review/blob/master/Review/One%20Model%2C%20Many%20Languages:%20Meta-learning%20for%20Multilingual%20Text-to-Speech.md)
+* \[2020/08\] [**One Model, Many Languages: Meta-learning for Multilingual Text-to-Speech**](https://github.com/sooftware/Paper-Review/blob/master/Review/One%20Model%2C%20Many%20Languages:%20Meta-learning%20for%20Multilingual%20Text-to-Speech.md). 
+* \[2020/10\] [**Adaptive Feature Selection for End-to-End Speech Translation**](https://github.com/sooftware/Paper-Review/blob/master/Review/Adaptive%20Feature%20Selection%20for%20End-to-End%20Speech%20Translation.md)
